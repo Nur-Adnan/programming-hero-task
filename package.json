@@ -1,7 +1,8 @@
 {
-  "name": "my-v0-project",
+  "name": "arena-x",
   "version": "0.1.0",
   "private": true,
+  "author": "Nur Adnan",
   "scripts": {
     "build": "next build",
     "dev": "next dev",
