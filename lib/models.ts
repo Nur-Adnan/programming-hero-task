@@ -1,4 +1,4 @@
-import { Schema, models, model, type Document } from "mongoose";
+import { Schema, models, model, type Document } from "mongoose"
 import {
   type User,
   type Debate,
@@ -8,14 +8,12 @@ import {
   DebateCategory,
   DebateDuration,
   DebateSide,
-} from "./types";
+} from "./types"
 
 // Extend Document to include our custom types
 export interface IUserDocument extends User, Document {}
 export interface IDebateDocument extends Debate, Document {}
-export interface IDebateParticipantDocument
-  extends DebateParticipant,
-    Document {}
+export interface IDebateParticipantDocument extends DebateParticipant, Document {}
 export interface IArgumentDocument extends Argument, Document {}
 export interface IArgumentVoteDocument extends ArgumentVote, Document {}
 
@@ -28,24 +26,16 @@ const UserSchema = new Schema<IUserDocument>(
     totalVotesReceived: { type: Number, default: 0 },
     debatesParticipated: { type: Number, default: 0 },
   },
-  { timestamps: true }
-);
+  { timestamps: true },
+)
 
 const DebateSchema = new Schema<IDebateDocument>({
   title: { type: String, required: true },
   description: { type: String, required: true },
   tags: [{ type: String }],
-  category: {
-    type: String,
-    enum: Object.values(DebateCategory),
-    required: true,
-  },
+  category: { type: String, enum: Object.values(DebateCategory), required: true },
   image: { type: String },
-  duration: {
-    type: String,
-    enum: Object.values(DebateDuration),
-    required: true,
-  },
+  duration: { type: String, enum: Object.values(DebateDuration), required: true },
   creatorId: { type: Schema.Types.ObjectId, ref: "User", required: true },
   creatorUsername: { type: String, required: true },
   createdAt: { type: Date, default: Date.now },
@@ -55,7 +45,7 @@ const DebateSchema = new Schema<IDebateDocument>({
   summary: { type: String },
   supportVotes: { type: Number, default: 0 },
   opposeVotes: { type: Number, default: 0 },
-});
+})
 
 const DebateParticipantSchema = new Schema<IDebateParticipantDocument>(
   {
@@ -66,8 +56,8 @@ const DebateParticipantSchema = new Schema<IDebateParticipantDocument>(
     joinedAt: { type: Date, default: Date.now },
     hasPostedFirstArgument: { type: Boolean, default: false },
   },
-  { unique: ["debateId", "userId"] }
-); // Ensure a user can only join a debate once
+  { unique: ["debateId", "userId"] },
+) // Ensure a user can only join a debate once
 
 const ArgumentSchema = new Schema<IArgumentDocument>({
   debateId: { type: Schema.Types.ObjectId, ref: "Debate", required: true },
@@ -78,41 +68,23 @@ const ArgumentSchema = new Schema<IArgumentDocument>({
   createdAt: { type: Date, default: Date.now },
   updatedAt: { type: Date },
   voteCount: { type: Number, default: 0 },
-});
+})
 
 const ArgumentVoteSchema = new Schema<IArgumentVoteDocument>(
   {
-    argumentId: {
-      type: Schema.Types.ObjectId,
-      ref: "Argument",
-      required: true,
-    },
+    argumentId: { type: Schema.Types.ObjectId, ref: "Argument", required: true },
     userId: { type: Schema.Types.ObjectId, ref: "User", required: true },
     voteType: { type: String, enum: ["upvote", "downvote"], required: true },
     createdAt: { type: Date, default: Date.now },
   },
-  { unique: ["argumentId", "userId"] }
-); // Ensure a user can only vote on an argument once
+  { unique: ["argumentId", "userId"] },
+) // Ensure a user can only vote on an argument once
 
-const UserModel = models.User || model<IUserDocument>("User", UserSchema);
-const DebateModel =
-  models.Debate || model<IDebateDocument>("Debate", DebateSchema);
+const UserModel = models.User || model<IUserDocument>("User", UserSchema)
+const DebateModel = models.Debate || model<IDebateDocument>("Debate", DebateSchema)
 const DebateParticipantModel =
-  models.DebateParticipant ||
-  model<IDebateParticipantDocument>(
-    "DebateParticipant",
-    DebateParticipantSchema
-  );
-const ArgumentModel =
-  models.Argument || model<IArgumentDocument>("Argument", ArgumentSchema);
-const ArgumentVoteModel =
-  models.ArgumentVote ||
-  model<IArgumentVoteDocument>("ArgumentVote", ArgumentVoteSchema);
+  models.DebateParticipant || model<IDebateParticipantDocument>("DebateParticipant", DebateParticipantSchema)
+const ArgumentModel = models.Argument || model<IArgumentDocument>("Argument", ArgumentSchema)
+const ArgumentVoteModel = models.ArgumentVote || model<IArgumentVoteDocument>("ArgumentVote", ArgumentVoteSchema)
 
-export default {
-  UserModel,
-  DebateModel,
-  DebateParticipantModel,
-  ArgumentModel,
-  ArgumentVoteModel,
-};
+export default { UserModel, DebateModel, DebateParticipantModel, ArgumentModel, ArgumentVoteModel }
