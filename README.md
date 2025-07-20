@@ -25,7 +25,7 @@ ArenaX is a modern, animated, and beautiful debate platform for meaningful discu
 ### 1. **Clone the Repository**
 
 ```bash
-git clone [https://github.com/your-username/arenax.git](https://github.com/Nur-Adnan/programming-hero-task.git)
+git clone https://github.com/Nur-Adnan/programming-hero-task.git
 cd arenax
 ```
 
